@@ -34,7 +34,7 @@ def tilt( m ):
     return total, rotate_matrix_clockwise(m)
 
 
-input_file = open("Advent_of_Code\day_14_input.small", "r")
+input_file = open("advent_of_code/day_14_input.txt", "r")
 lines = input_file.readlines()
 # get rid of \n chars
 for line in range(len(lines)):
@@ -45,10 +45,8 @@ lines_orig = lines
 results = []
 matches = []
 ctr = 0
-while len(matches) < 1:
+while len(matches) < 26:
     ctr += 1
-    #if ctr %10 == 0:
-        #print(ctr)
     if lines in results:
         matches.append([results.index(lines), ctr])
     results.append(lines)
@@ -58,20 +56,17 @@ while len(matches) < 1:
         total, lines = tilt(lines)
         lines = rotate_matrix_clockwise(lines)
 
-spacing = matches[0][1]-matches[0][0]+2
-print(spacing, 1000000000%spacing)
-num_loops = (1000000000%spacing) + matches[0][0]
+spacing = matches[0][1]-matches[0][0]-1
+num_loops = ((1000000000-matches[0][0])%spacing) + matches[0][0]-1
 
 lines = lines_orig
 
 print("Num loops : ", num_loops, "Match: ", matches[0])
-for _ in range(num_loops):
+for _ in range(num_loops+1):
     # Succesful Cycle
     for x in range(4):
         total, lines = tilt(lines)
         lines = rotate_matrix_clockwise(lines)
-        print(total)
     total = calc_north_weight(lines)
-    print("FOUR SET: {}".format(total), "LOOP NUM: {}".format(_))
-
+    
 print(total)
